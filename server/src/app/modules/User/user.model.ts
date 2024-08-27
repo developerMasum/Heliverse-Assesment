@@ -15,7 +15,22 @@ const userSchema = new Schema<TUser>(
     },
     gender: {
       type: String,
-      enum: ['Male', 'Female'],
+      enum: [
+        'Male',
+        'Female',
+        'Agender',
+        'Bigender',
+        'Genderfluid',
+        'Genderqueer',
+        'Non-binary',
+        'Polygender',
+        'Prefer not to say',
+        'Trans',
+        'Transgender',
+        'Transgender female',
+        'Transgender male',
+        'Two-spirit',
+      ],
       required: true,
     },
 
