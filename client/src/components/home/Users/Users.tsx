@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import UserCard from "./UserCard";
 import SearchBar from "@/components/common/SearchBar";
 import SelectBar from "@/components/common/SelectBar";
@@ -99,8 +99,8 @@ const User = () => {
 
   return (
     <div className="pt-5">
-      <div className="flex justify-center items-center gap-6">
-        <div>
+      <div className="flex flex-col md:flex-row justify-center items-center gap-6">
+        <div className="w-full md:w-auto">
           <SearchBar onSearch={handleSearch} />
           <div className="p-4">
             <SelectBar
@@ -111,10 +111,10 @@ const User = () => {
           </div>
         </div>
         <div
-          className="cursor-pointer flex justify-center items-center gap-6 bg-green-300 w-48 px-1 py-3 rounded-lg"
+          className="cursor-pointer flex justify-center items-center gap-6 bg-[#0E7490] w-full md:w-48 px-1 py-3 rounded-lg"
           onClick={() => setIsModalOpen(true)}
         >
-          <p className="text-xl font-bold text-white">ADD USERS</p>
+          <p className="text-xl font-bold text-white text-center">ADD USERS</p>
           <Zoom delay={200}>
             <img
               src={assets.images.add}
@@ -124,6 +124,7 @@ const User = () => {
           </Zoom>
         </div>
       </div>
+
       <div className="flex flex-wrap justify-around items-start">
         {filteredUsers.map((user) => (
           <div key={user._id}>
@@ -131,7 +132,7 @@ const User = () => {
           </div>
         ))}
       </div>
-      <div className="flex justify-center mt-4">
+      <div className="flex w-full justify-center pt-12 pb-12">
         <ReactPaginate
           previousLabel={"«"}
           nextLabel={"»"}
@@ -152,6 +153,7 @@ const User = () => {
           activeClassName={"active"}
         />
       </div>
+
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <h2 className="text-2xl font-bold mb-4">Add New User</h2>
         <AddUserForm onSubmit={handleAddUser} isModalClose={setIsModalOpen} />
