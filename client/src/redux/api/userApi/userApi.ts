@@ -34,6 +34,14 @@ export const dashboardApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.user],
     }),
+    addUser: build.mutation({
+      query: (data) => ({
+        url: "/",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: [tagTypes.user],
+    }),
   }),
 });
 
@@ -41,4 +49,5 @@ export const {
   useGetUsersQuery,
   useDeleteUserMutation,
   useUpdateUserMutation,
+  useAddUserMutation,
 } = dashboardApi;

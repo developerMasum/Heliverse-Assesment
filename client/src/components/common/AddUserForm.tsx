@@ -1,9 +1,15 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useAddUserMutation } from "@/redux/api/userApi/userApi";
+import { TUser } from "@/utils";
 import React, { useState } from "react";
-import { Button } from "../ui/button";
 
-const AddUserForm: React.FC<{ onSubmit: (user: any) => void }> = ({
+interface AddUserFormProps {
+  onSubmit: (user: TUser) => void;
+  isModalClose: (open: boolean) => void;
+}
+
+const AddUserForm: React.FC<AddUserFormProps> = ({
   onSubmit,
+  isModalClose,
 }) => {
   const [userData, setUserData] = useState({
     first_name: "",
@@ -15,6 +21,8 @@ const AddUserForm: React.FC<{ onSubmit: (user: any) => void }> = ({
     domain: "",
   });
 
+  const [addUser, { isLoading }] = useAddUserMutation();
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -24,13 +32,30 @@ const AddUserForm: React.FC<{ onSubmit: (user: any) => void }> = ({
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(userData);
+    try {
+      const addedUser = await addUser(userData).unwrap();
+      onSubmit(addedUser); // Call onSubmit with the newly added user data
+      alert("User added successfully");
+      setUserData({
+        first_name: "",
+        last_name: "",
+        email: "",
+        gender: "",
+        avatar: "",
+        available: true,
+        domain: "",
+      });
+      isModalClose(false); // Close the modal after successful submission
+    } catch (error) {
+      alert("Failed to add user");
+    }
   };
 
   return (
     <form onSubmit={handleSubmit}>
+      {/* Form Fields */}
       <div className="grid grid-cols-1 gap-4">
         <input
           type="text"
@@ -39,6 +64,7 @@ const AddUserForm: React.FC<{ onSubmit: (user: any) => void }> = ({
           onChange={handleChange}
           placeholder="First Name"
           className="p-2 border border-gray-300 rounded"
+          disabled={isLoading}
         />
         <input
           type="text"
@@ -47,6 +73,7 @@ const AddUserForm: React.FC<{ onSubmit: (user: any) => void }> = ({
           onChange={handleChange}
           placeholder="Last Name"
           className="p-2 border border-gray-300 rounded"
+          disabled={isLoading}
         />
         <input
           type="email"
@@ -55,6 +82,7 @@ const AddUserForm: React.FC<{ onSubmit: (user: any) => void }> = ({
           onChange={handleChange}
           placeholder="Email"
           className="p-2 border border-gray-300 rounded"
+          disabled={isLoading}
         />
 
         <input
@@ -64,6 +92,7 @@ const AddUserForm: React.FC<{ onSubmit: (user: any) => void }> = ({
           onChange={handleChange}
           placeholder="Domain"
           className="p-2 border border-gray-300 rounded"
+          disabled={isLoading}
         />
         <input
           type="text"
@@ -72,12 +101,14 @@ const AddUserForm: React.FC<{ onSubmit: (user: any) => void }> = ({
           onChange={handleChange}
           placeholder="Upload Avatar"
           className="p-2 border border-gray-300 rounded"
+          disabled={isLoading}
         />
         <select
           name="gender"
           value={userData.gender}
           onChange={handleChange}
           className="p-2 border border-gray-300 rounded"
+          disabled={isLoading}
         >
           <option value="">Select Gender</option>
           <option value="Non-binary">Non-binary</option>
@@ -95,6 +126,7 @@ const AddUserForm: React.FC<{ onSubmit: (user: any) => void }> = ({
               setUserData({ ...userData, available: !userData.available })
             }
             className="mr-2"
+            disabled={isLoading}
           />
           <label htmlFor="available">Available</label>
         </div>
@@ -102,8 +134,9 @@ const AddUserForm: React.FC<{ onSubmit: (user: any) => void }> = ({
       <button
         type="submit"
         className="mt-4 bg-blue-500 text-white p-2 rounded hover:bg-blue-700"
+        disabled={isLoading}
       >
-        Add User
+        {isLoading ? "Adding..." : "Add User"}
       </button>
     </form>
   );

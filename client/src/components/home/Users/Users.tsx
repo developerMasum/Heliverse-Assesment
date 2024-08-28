@@ -12,7 +12,7 @@ import { Zoom } from "react-awesome-reveal";
 import assets from "@/assets";
 import Modal from "@/components/common/Modal";
 import AddUserForm from "@/components/common/AddUserForm";
-const User: React.FC = () => {
+const User = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDomain, setSelectedDomain] = useState<string | undefined>();
   const [selectedGender, setSelectedGender] = useState<string | undefined>();
@@ -154,7 +154,7 @@ const User: React.FC = () => {
       </div>
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <h2 className="text-2xl font-bold mb-4">Add New User</h2>
-        <AddUserForm onSubmit={handleAddUser} />
+        <AddUserForm onSubmit={handleAddUser} isModalClose={setIsModalOpen} />
       </Modal>
     </div>
   );
