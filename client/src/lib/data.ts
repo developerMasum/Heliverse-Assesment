@@ -4,23 +4,7 @@ export const NavLinks = [
     url: "/",
   },
   {
-    name: "About Us",
-    url: "/about",
-  },
-  {
-    name: "Schedule",
-    url: "/schedule",
-  },
-  {
-    name: "Gallery",
-    url: "/gallery",
-  },
-  {
-    name: "News",
-    url: "/news",
-  },
-  {
-    name: "Contacts",
-    url: "/contact",
+    name: "Portfolio",
+    url: "/portfolio",
   },
 ];

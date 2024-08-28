@@ -17,16 +17,16 @@ const SelectBar: React.FC<SelectBarProps> = ({
   const users = data?.users?.data?.result as TUser[];
 
   const staticDomains = Array.from(
-    new Set(users.map((user) => user.domain))
+    new Set(users?.map((user) => user.domain))
   ) as string[];
 
   const staticGenders = Array.from(
-    new Set(users.map((user) => user.gender))
+    new Set(users?.map((user) => user.gender))
   ) as string[];
 
   // Ensure availability is treated as a string for the select options
   const staticAvailabilityOptions = Array.from(
-    new Set(users.map((user) => user.available.toString()))
+    new Set(users?.map((user) => user.available.toString()))
   ) as string[];
 
   return (
@@ -34,7 +34,7 @@ const SelectBar: React.FC<SelectBarProps> = ({
       <div className="w-32">
         <label
           htmlFor="domain"
-          className="block text-sm font-medium text-gray-700"
+          className="block text-sm font-medium text-gray-500"
         >
           Domain
         </label>
@@ -44,7 +44,7 @@ const SelectBar: React.FC<SelectBarProps> = ({
           className="mt-1 block w-full h-8 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
         >
           <option value="">Select Domain</option>
-          {staticDomains.map((domain, index) => (
+          {staticDomains?.map((domain, index) => (
             <option key={index} value={domain}>
               {domain}
             </option>
@@ -55,7 +55,7 @@ const SelectBar: React.FC<SelectBarProps> = ({
       <div className="w-32">
         <label
           htmlFor="gender"
-          className="block text-sm font-medium text-gray-700"
+          className="block text-sm font-medium text-gray-500"
         >
           Gender
         </label>
@@ -65,7 +65,7 @@ const SelectBar: React.FC<SelectBarProps> = ({
           className="mt-1 block w-full h-8 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
         >
           <option value="">Select Gender</option>
-          {staticGenders.map((gender, index) => (
+          {staticGenders?.map((gender, index) => (
             <option key={index} value={gender}>
               {gender}
             </option>
@@ -76,7 +76,7 @@ const SelectBar: React.FC<SelectBarProps> = ({
       <div className="w-40">
         <label
           htmlFor="availability"
-          className="block text-sm font-medium text-gray-700"
+          className="block text-sm font-medium text-gray-500"
         >
           Availability
         </label>
@@ -86,7 +86,7 @@ const SelectBar: React.FC<SelectBarProps> = ({
           className="mt-1 block w-full h-8 border-gray-300 rounded-md shadow-sm text-black focus:ring-blue-500 focus:border-blue-500"
         >
           <option value="">Select Availability</option>
-          {staticAvailabilityOptions.map((option, index) => (
+          {staticAvailabilityOptions?.map((option, index) => (
             <option key={index} value={option}>
               {option === "true" ? "Available" : "Not Available"}
             </option>

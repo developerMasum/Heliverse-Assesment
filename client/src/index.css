@@ -1,9 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@200;400;700&display=swap");
 @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
+@tailwind components;
+@tailwind utilities;
 
- 
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -51,20 +50,61 @@
   }
 }
 
-
-  @layer base {
-    * {
-      @apply border-border;
-    }
-    body {
-      @apply bg-background text-foreground;
-    }
-  }
-
+@layer base {
   * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    font-family: "Nunito", sans-serif;
-   
+    @apply border-border;
   }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Nunito", sans-serif;
+}
+
+/* Pagination container */
+.pagination {
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  list-style: none;
+}
+
+/* Pagination item */
+.page-item {
+  margin: 0 5px;
+}
+
+/* Pagination link */
+.page-link {
+  display: block;
+  padding: 8px 12px;
+  border-radius: 4px;
+  background-color: #333;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Pagination link hover */
+.page-link:hover {
+  background-color: #555;
+}
+
+/* Active page styling */
+.page-item.active .page-link {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+/* Disabled page styling */
+.page-item.disabled .page-link {
+  background-color: #e9ecef;
+  color: #6c757d;
+}

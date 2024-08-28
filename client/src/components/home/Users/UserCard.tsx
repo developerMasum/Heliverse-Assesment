@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -112,9 +111,6 @@ const UserCard: React.FC<User> = ({
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Update User</DialogTitle>
-            <DialogDescription>
-              Update the details of the user.
-            </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">

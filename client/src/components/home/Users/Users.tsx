@@ -6,6 +6,8 @@ import SearchBar from "@/components/common/SearchBar";
 import SelectBar from "@/components/common/SelectBar";
 import { useGetUsersQuery } from "@/redux/api/userApi/userApi";
 import { TUser } from "@/utils";
+import ReactPaginate from "react-paginate";
+import Loader from "@/lib/Loader";
 
 const User: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -19,54 +21,75 @@ const User: React.FC = () => {
   const [, setGenders] = useState<string[]>([]);
   const [, setAvailabilityOptions] = useState<string[]>([]);
 
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 20;
+  const [loadingPage, setLoadingPage] = useState(false);
+
   const { data, isLoading, refetch } = useGetUsersQuery({
     gender: selectedGender,
     available: selectedAvailability,
     domain: selectedDomain,
+    page: currentPage + 1, // API pages are often 1-indexed
+    limit: itemsPerPage,
   });
+
   const users = data?.users?.data?.result;
+  const metaData = data?.users?.data?.meta;
+
   useEffect(() => {
     if (users) {
-      // const users = data.users.data.result;
-
-      // Update options
       setDomains(Array.from(new Set(users.map((user: TUser) => user.domain))));
       setGenders(Array.from(new Set(users.map((user: TUser) => user.gender))));
       setAvailabilityOptions(
         Array.from(new Set(users.map((user: TUser) => user.available)))
       );
-      console.log(domains);
-      // Update filtered users
-      setFilteredUsers(
-        users.filter(
-          (user: TUser) =>
-            user.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            user.last_name.toLowerCase().includes(searchQuery.toLowerCase())
-        )
+
+      const filtered = users.filter(
+        (user: TUser) =>
+          user.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          user.last_name.toLowerCase().includes(searchQuery.toLowerCase())
       );
+
+      setFilteredUsers(filtered);
+      setLoadingPage(false);
     }
-  }, [data, searchQuery, selectedDomain, selectedGender, selectedAvailability]);
+  }, [
+    users,
+    searchQuery,
+    selectedDomain,
+    selectedGender,
+    selectedAvailability,
+  ]);
 
   useEffect(() => {
-    refetch(); // Refetch data when filters or search query changes
+    setLoadingPage(true);
+    refetch();
   }, [
     searchQuery,
     selectedDomain,
     selectedGender,
     selectedAvailability,
+    currentPage,
     refetch,
   ]);
 
-  const handleSearch = (query: string) => {
-    setSearchQuery(query);
+  const handlePageChange = (selectedItem: { selected: number }) => {
+    setCurrentPage(selectedItem.selected);
   };
 
-  if (isLoading) {
-    return <div>Loading...</div>;
+  const pageCount = metaData ? metaData.totalPage : 0;
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    setCurrentPage(0); // Reset to first page on search
+  };
+
+  if (isLoading || loadingPage) {
+    return <Loader />;
   }
 
   return (
-    <div>
+    <div className="pt-5">
       <SearchBar onSearch={handleSearch} />
       <div className="p-4">
         <SelectBar
@@ -81,6 +104,27 @@ const User: React.FC = () => {
             <UserCard {...user} />
           </div>
         ))}
+      </div>
+      <div className="flex justify-center mt-4">
+        <ReactPaginate
+          previousLabel={"«"}
+          nextLabel={"»"}
+          breakLabel={"..."}
+          pageCount={pageCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageChange}
+          containerClassName={"pagination"}
+          pageClassName={"page-item"}
+          pageLinkClassName={"page-link"}
+          previousClassName={"page-item"}
+          previousLinkClassName={"page-link"}
+          nextClassName={"page-item"}
+          nextLinkClassName={"page-link"}
+          breakClassName={"page-item"}
+          breakLinkClassName={"page-link"}
+          activeClassName={"active"}
+        />
       </div>
     </div>
   );
