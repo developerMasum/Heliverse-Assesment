@@ -2,6 +2,9 @@
 
 This project is a User Management Application that allows users to search, filter, and manage a list of users. The frontend is designed to be responsive and visually appealing, while the backend provides CRUD API operations for managing user data, including filtering, searching, and pagination.
 
+## Live URL
+
+[Heliverse Assignment ](https://heliverse-assesment.vercel.app)
 ## Table of Contents
 
 - [Features](#features)
@@ -96,9 +99,40 @@ This project is a User Management Application that allows users to search, filte
 - **POST /api/team:** Create a new team by selecting users with unique domains and availability.
 - **GET /api/team/:id:** Retrieve the details of a specific team by ID.
 
-## Setup and Installation
+## Installation & Running Locally
+
+## Installation & Running Locally
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/user-management-app.git
-   ```
+   git clone [[[https://github.com/yourusername/ecommerce-data-visualization.git](https://github.com/developerMasum/Heliverse-Assesment)](https://github.com/developerMasum/Heliverse-Assesment)]([https://github.com/developerMasum/RapidQuest-Task](https://github.com/developerMasum/Heliverse-Assesment))
+  
+```
+```bash
+   cd client
+npm install
+npm run dev
+```
+```bash
+   cd client
+npm install
+npm run dev
+```
+```bash
+   cd ../server
+npm install
+
+```
+```bash
+  DATABASE_URL=mongodb+srv://name of database:password@cluster0.aaflc.mongodb.net/users?retryWrites=true&w=majority&appName=Cluster0
+PORT=5000
+
+```
+```bash
+   npm run start:dev
+
+```
+
+## 🔗 Visit My Profile Links
+[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://portfolio-masum-fullstack.vercel.app)
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mdmasumdev)
