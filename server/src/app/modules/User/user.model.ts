@@ -5,7 +5,10 @@ import { TUser, UserModel } from './user.interface';
 
 const userSchema = new Schema<TUser>(
   {
-    name: {
+    first_name: {
+      type: String,
+    },
+    last_name: {
       type: String,
     },
     email: {
@@ -38,10 +41,9 @@ const userSchema = new Schema<TUser>(
       type: String,
       required: true,
     },
-    availability: {
+    available: {
       type: Boolean,
       required: true,
-      default: true,
     },
     domain: {
       type: String,

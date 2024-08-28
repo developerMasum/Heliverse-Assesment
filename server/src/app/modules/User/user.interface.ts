@@ -3,11 +3,12 @@
 import { Model } from 'mongoose';
 
 export interface TUser {
-  name: string;
+  first_name: string;
+  last_name: string;
   email: string;
   gender: 'Male' | 'Female';
   domain: string;
-  availability: boolean;
+  available: boolean;
   avatar?: string;
   isDeleted?: boolean;
 }

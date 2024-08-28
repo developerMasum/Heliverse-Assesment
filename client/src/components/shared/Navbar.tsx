@@ -28,7 +28,7 @@ const NavBar = () => {
   }, []);
 
   return (
-    <header className="w-full h-auto bg-transparent overflow-x-hidden fixed z-50 top-0 left-0">
+    <header className="w-full h-auto bg-zinc-900  fixed z-50 top-0 left-0">
       <nav
         className={`w-full lg:h-28 md:h-24 h-20 ${
           navBarColor ? "bg-zinc-900" : " bg-transparent"
@@ -45,13 +45,13 @@ const NavBar = () => {
             <Barbell size={25} color="currentColor" weight="fill" />
           </Text>
           <Text as="span" className="text-white">
-            Gym
+            Heli
           </Text>
           <Text
             as="span"
             className="bg-gradient-to-r from-amber-500 to-red-500 bg-clip-text text-transparent"
           >
-            Nex
+            Verse
           </Text>
         </Link>
         <div className="lg:flex hidden items-center h-full gap-20">
@@ -90,8 +90,8 @@ const NavBar = () => {
           <section className="w-full px-4 py-6 flex flex-col gap-16">
             <div className="w-full flex pt-5 px-4 justify-between items-center">
               <Link to={`/`} className="font-extrabold text-2xl">
-                <span className=" text-white ">Gym</span>
-                <span className=" text-amber-500">Nex</span>
+                <span className=" text-white ">Heli</span>
+                <span className=" text-amber-500">Verse</span>
               </Link>
               <div
                 className="hamburger text-white cursor-pointer"
