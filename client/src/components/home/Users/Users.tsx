@@ -125,13 +125,14 @@ const User = () => {
         </div>
       </div>
 
-      <div className="flex flex-wrap justify-around items-start">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-5 gap-6 justify-items-center">
         {filteredUsers.map((user) => (
           <div key={user._id}>
             <UserCard {...user} />
           </div>
         ))}
       </div>
+
       <div className="flex w-full justify-center pt-12 pb-12">
         <ReactPaginate
           previousLabel={"«"}
