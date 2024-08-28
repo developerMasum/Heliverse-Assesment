@@ -26,7 +26,7 @@ app.use(
 app.use('/api', router);
 
 app.get('/', (req: Request, res: Response) => {
-  res.send(' EvaluationTask DB Connected !!');
+  res.send(' Heliverse Task DB Connected !!');
 });
 
 app.use(globalErrorHandler);
