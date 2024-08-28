@@ -102,6 +102,9 @@ const UserCard: React.FC<User> = ({
               alt="Delete"
             />
           </div>
+          <Button className="mt-4 mx-2 text-sm font-sans uppercase">
+            add to team
+          </Button>
         </div>
       </div>
 

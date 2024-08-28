@@ -8,7 +8,10 @@ import { useGetUsersQuery } from "@/redux/api/userApi/userApi";
 import { TUser } from "@/utils";
 import ReactPaginate from "react-paginate";
 import Loader from "@/lib/Loader";
-
+import { Zoom } from "react-awesome-reveal";
+import assets from "@/assets";
+import Modal from "@/components/common/Modal";
+import AddUserForm from "@/components/common/AddUserForm";
 const User: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDomain, setSelectedDomain] = useState<string | undefined>();
@@ -17,13 +20,14 @@ const User: React.FC = () => {
     string | undefined
   >();
   const [filteredUsers, setFilteredUsers] = useState<TUser[]>([]);
-  const [domains, setDomains] = useState<string[]>([]);
+  const [, setDomains] = useState<string[]>([]);
   const [, setGenders] = useState<string[]>([]);
   const [, setAvailabilityOptions] = useState<string[]>([]);
 
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 20;
-  const [loadingPage, setLoadingPage] = useState(false);
+  const [, setLoadingPage] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { data, isLoading, refetch } = useGetUsersQuery({
     gender: selectedGender,
@@ -77,6 +81,11 @@ const User: React.FC = () => {
     setCurrentPage(selectedItem.selected);
   };
 
+  const handleAddUser = (user: TUser) => {
+    console.log("User Added:", user);
+    setIsModalOpen(false);
+  };
+
   const pageCount = metaData ? metaData.totalPage : 0;
 
   const handleSearch = (query: string) => {
@@ -84,19 +93,36 @@ const User: React.FC = () => {
     setCurrentPage(0); // Reset to first page on search
   };
 
-  if (isLoading || loadingPage) {
+  if (isLoading) {
     return <Loader />;
   }
 
   return (
     <div className="pt-5">
-      <SearchBar onSearch={handleSearch} />
-      <div className="p-4">
-        <SelectBar
-          onSelectDomain={setSelectedDomain}
-          onSelectGender={setSelectedGender}
-          onSelectAvailability={setSelectedAvailability}
-        />
+      <div className="flex justify-center items-center gap-6">
+        <div>
+          <SearchBar onSearch={handleSearch} />
+          <div className="p-4">
+            <SelectBar
+              onSelectDomain={setSelectedDomain}
+              onSelectGender={setSelectedGender}
+              onSelectAvailability={setSelectedAvailability}
+            />
+          </div>
+        </div>
+        <div
+          className="cursor-pointer flex justify-center items-center gap-6 bg-green-300 w-48 px-1 py-3 rounded-lg"
+          onClick={() => setIsModalOpen(true)}
+        >
+          <p className="text-xl font-bold text-white">ADD USERS</p>
+          <Zoom delay={200}>
+            <img
+              src={assets.images.add}
+              alt="Add"
+              className="w-14 h-14 rounded-full border-4 border-white"
+            />
+          </Zoom>
+        </div>
       </div>
       <div className="flex flex-wrap justify-around items-start">
         {filteredUsers.map((user) => (
@@ -126,6 +152,10 @@ const User: React.FC = () => {
           activeClassName={"active"}
         />
       </div>
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <h2 className="text-2xl font-bold mb-4">Add New User</h2>
+        <AddUserForm onSubmit={handleAddUser} />
+      </Modal>
     </div>
   );
 };
