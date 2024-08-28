@@ -20,5 +20,6 @@ router.put(
 
   UserControllers.updateUser,
 );
+router.get('/ids', UserControllers.getUsersByIds);
 
 export const UserRoutes = router;

@@ -1,16 +1,15 @@
 import { useState, useEffect } from "react";
-
 import { ArrowCircleRight, Barbell, CirclesFour } from "@phosphor-icons/react";
-
 import { NavLinks } from "@/lib/data";
 import { Link } from "react-router-dom";
 import { Text } from "../common/Text";
 import { List } from "../common/List";
+import { Badge } from "../ui/badge";
 
 const NavBar = () => {
   const [open, setOpen] = useState(false);
-
   const [navBarColor, setNavBarColor] = useState(false);
+  const [teamUsersCount, setTeamUsersCount] = useState(0);
 
   const handleToggle = () => {
     setOpen(!open);
@@ -27,11 +26,29 @@ const NavBar = () => {
     };
   }, []);
 
+  useEffect(() => {
+    // Function to update team users count
+    const updateTeamUsersCount = () => {
+      const data = JSON.parse(localStorage.getItem("teamUsers") || "[]");
+      setTeamUsersCount(data.length);
+    };
+
+    // Initial update
+    updateTeamUsersCount();
+
+    // Update count on storage change
+    window.addEventListener("storage", updateTeamUsersCount);
+
+    return () => {
+      window.removeEventListener("storage", updateTeamUsersCount);
+    };
+  }, []);
+
   return (
-    <header className="w-full h-auto bg-zinc-900  fixed z-50 top-0 left-0">
+    <header className="w-full h-auto bg-zinc-900 fixed z-50 top-0 left-0">
       <nav
         className={`w-full lg:h-28 md:h-24 h-20 ${
-          navBarColor ? "bg-zinc-900" : " bg-transparent"
+          navBarColor ? "bg-zinc-900" : "bg-transparent"
         } lg:px-16 md:px-9 px-8 flex justify-between items-center`}
       >
         <Link
@@ -55,18 +72,10 @@ const NavBar = () => {
           </Text>
         </Link>
         <div className="lg:flex hidden items-center h-full gap-20">
-          <ul className="flex items-center justify-center h-full gap-4 relative before:w-full before:h-0.5 before:absolute before:bottom-0 before:left-0 before:bg-zinc-400">
-            {NavLinks.map((navlink, index) => (
-              <List className="w-full text-base" key={index}>
-                <Link
-                  to={navlink.url}
-                  className={`relative inline-block  px-2 whitespace-nowrap text-white uppercase text-xs font-bold transition-all duration-200 hover:text-amber-500 before:w-0 before:h-0.5 before:bg-gradient-to-r from-red-500 to-amber-500 before:absolute before:-bottom-[2.93rem] before:left-0 before:transition-all before:duration-200 before:ease-in hover:before:left-0.5`}
-                >
-                  {navlink.name}
-                </Link>
-              </List>
-            ))}
-          </ul>
+          <Link className="text-white" to={`/team`}>
+            Team
+            <Badge>{teamUsersCount}</Badge> {/* Display team users count */}
+          </Link>
         </div>
         <div
           className="hamburger lg:hidden flex text-white cursor-pointer"
@@ -76,9 +85,9 @@ const NavBar = () => {
         </div>
       </nav>
 
-      {/* Mobile Nav  */}
+      {/* Mobile Nav */}
       <nav
-        className={`flex justify-end lg:hidden h-screen w-full bg-gray-950/90 fixed top-0  ${
+        className={`flex justify-end lg:hidden h-screen w-full bg-gray-950/90 fixed top-0 ${
           open ? "right-0" : "-right-[120vw]"
         } transition-all duration-500 ease-out`}
       >
@@ -90,8 +99,8 @@ const NavBar = () => {
           <section className="w-full px-4 py-6 flex flex-col gap-16">
             <div className="w-full flex pt-5 px-4 justify-between items-center">
               <Link to={`/`} className="font-extrabold text-2xl">
-                <span className=" text-white ">Heli</span>
-                <span className=" text-amber-500">Verse</span>
+                <span className="text-white">Heli</span>
+                <span className="text-amber-500">Verse</span>
               </Link>
               <div
                 className="hamburger text-white cursor-pointer"

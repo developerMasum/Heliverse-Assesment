@@ -63,6 +63,23 @@ const updateUser = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const getUsersByIds = catchAsync(async (req, res) => {
+  const ids: string[] = req.query.ids as string[];
+
+  try {
+    // Ensure IDs are valid and handle any conversion if necessary
+    const result = await UserServices.getUsersByIds(ids);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Users retrieved successfully',
+      data: result,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 export const UserControllers = {
   createUser,
@@ -70,4 +87,5 @@ export const UserControllers = {
   getSingleUser,
   deleteUser,
   updateUser,
+  getUsersByIds,
 };

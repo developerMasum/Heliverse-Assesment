@@ -36,6 +36,7 @@ const UserCard: React.FC<User> = ({
   available,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAlreadyAddedModalOpen, setIsAlreadyAddedModalOpen] = useState(false);
   const [updatedFirstName, setUpdatedFirstName] = useState(first_name);
   const [updatedLastName, setUpdatedLastName] = useState(last_name);
   const [updatedDomain, setUpdatedDomain] = useState(domain);
@@ -59,6 +60,21 @@ const UserCard: React.FC<User> = ({
       },
     });
     setIsModalOpen(false);
+  };
+
+  const handleAddToTeam = () => {
+    const teamStorageKey = "teamUsers";
+    const existingTeam = JSON.parse(
+      localStorage.getItem(teamStorageKey) || "[]"
+    );
+
+    // Check if user is already in the team
+    if (existingTeam.includes(_id)) {
+      setIsAlreadyAddedModalOpen(true);
+    } else {
+      existingTeam.push(_id);
+      localStorage.setItem(teamStorageKey, JSON.stringify(existingTeam));
+    }
   };
 
   return (
@@ -90,7 +106,7 @@ const UserCard: React.FC<User> = ({
           <div className="mt-4 flex justify-center gap-6">
             <img
               onClick={() => setIsModalOpen(true)}
-              className="w-8 h-8 mt-2  cursor-pointer"
+              className="w-8 h-8 mt-2 cursor-pointer"
               src={assets.images.edit}
               alt="Edit"
             />
@@ -102,8 +118,11 @@ const UserCard: React.FC<User> = ({
               alt="Delete"
             />
           </div>
-          <Button className="mt-4 mx-2 text-sm font-sans uppercase">
-            add to team
+          <Button
+            className="mt-4 mx-2 text-sm font-sans uppercase"
+            onClick={handleAddToTeam}
+          >
+            Add to Team
           </Button>
         </div>
       </div>
@@ -167,6 +186,28 @@ const UserCard: React.FC<User> = ({
               Cancel
             </Button>
             <Button onClick={handleUpdateUser}>Save Changes</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Already Added Modal */}
+      <Dialog
+        open={isAlreadyAddedModalOpen}
+        onOpenChange={setIsAlreadyAddedModalOpen}
+      >
+        <DialogTrigger />
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Already Added</DialogTitle>
+          </DialogHeader>
+          <p className="text-center">This user is already added to the team.</p>
+          <DialogFooter>
+            <Button
+              variant="secondary"
+              onClick={() => setIsAlreadyAddedModalOpen(false)}
+            >
+              Close
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

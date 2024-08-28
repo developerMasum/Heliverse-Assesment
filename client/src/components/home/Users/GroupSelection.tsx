@@ -24,7 +24,9 @@ const UserSelection: React.FC = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/users");
+        const response = await axios.get(
+          "https://heliverse-server-eight.vercel.app/api/users"
+        );
         setUsers(response.data.data.result);
       } catch (error) {
         setError("Failed to fetch users");
